@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "node ./bin/www",
-    "test": "jest"
+    "test": "jest --verbose --json > test.results.json"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
