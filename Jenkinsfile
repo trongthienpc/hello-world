@@ -10,7 +10,7 @@ pipeline {
 
 		stage('Test cases') {
 			steps {
-				bat 'npm run test --json > test-results.json'
+				bat 'npm run test --json test-results.json'
 			}
 		}
 
