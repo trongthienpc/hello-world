@@ -16,29 +16,13 @@ pipeline {
 
 		stage('Test cases') {
             steps {
-                script {
-                    def testResults = bat(returnStdout: true, script: 'npm test --json').trim()
-                    writeFile file: 'test-results.json', text: testResults
-                    def json = new groovy.json.JsonSlurper().parseText(testResults)
-                    def testSuites = json.suites
-
-                    // Count the number of failed test cases
-                    def failedTests = testSuites.collectMany { suite ->
-                        suite.cases.findAll { testCase ->
-                            testCase.status == 'failed'
-                        }
-                    }
-
-                    if (failedTests.isEmpty()) {
-                        echo "All test cases passed. Proceeding to deployment..."
-                        // Proceed to the deployment stage
-                        build 'Deploy'
-                    } else {
-                        echo "Test cases failed! Cannot proceed with deployment."
-                        // Alert about failed test cases or take appropriate actions
-                    }
-                }
+                bat 'npm test -- --coverage --reporters=default --reporters=jest-junit'
             }
+			post {
+				always { 
+					 junit 'coverage/lcov-report/*.xml' // Path to the generated JUnit XML report
+				}
+			}
         }
 
         stage('Deploy') {
