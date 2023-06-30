@@ -12,7 +12,7 @@ pipeline {
 		stage('Test cases') {
 			steps {
 				echo "Testing functions"
-				bat 'start npm run test --json > test-results.json'
+				bat 'npm run test --json > test-results.json'
 			}
 		}
 
