@@ -14,8 +14,8 @@ pipeline {
             }
 			post {
 				always { 
-					junit 'test-results/junit.xml'
-          cobertura 'coverage/lcov-report/cobertura-coverage.xml'
+					junit 'test-results/junit/junit.xml'
+          			cobertura 'coverage/lcov-report/cobertura-coverage.xml'
 				}
 			}
         }
