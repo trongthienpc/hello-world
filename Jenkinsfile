@@ -17,23 +17,21 @@ pipeline {
 		stage("Deploy application") { 
 			when {
 				// Chỉ triển khai nếu tất cả các test case đều thành công
-				allOf {
-				// Kiểm tra kết quả test
-				script {
+				expression {
+					// Kiểm tra kết quả test
 					def testResults = readFile 'test-results.json'
 					def json = new groovy.json.JsonSlurper().parseText(testResults)
 					def testSuites = json.suites
 
 					// Đếm số lượng test cases không thành công
-					def failedTests = testSuites.collect { suite ->
-					suite.cases.findAll { testCase ->
+					def failedTests = testSuites.collectMany { suite ->
+						suite.cases.findAll { testCase ->
 						testCase.status == 'failed'
+						}
 					}
-					}.flatten()
 
 					// Nếu không có test case nào không thành công, triển khai
-					return failedTests.isEmpty()
-				}
+					failedTests.isEmpty()
 				}
 			}
 			steps {
