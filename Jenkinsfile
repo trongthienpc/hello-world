@@ -9,12 +9,6 @@ pipeline {
 		}
 
 		stage('Test cases') {
-			steps {
-				bat 'npm run test'
-			}
-		}
-
-		stage('Test cases') {
             steps {
                 bat 'npm test -- --coverage --reporters=default --reporters=jest-junit'
             }
