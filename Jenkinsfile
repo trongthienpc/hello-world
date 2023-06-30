@@ -14,23 +14,38 @@ pipeline {
 			}
 		}
 
-		stage("Deploy application") {
-			when {
-				expression {
-					def testResults = readJSON file: 'test.results.json' // Read and parse JSON directly
-					def testSuites = testResults.suites
-					def failedTests = testSuites.collectMany { suite ->
-						suite.cases.findAll { testCase ->
-							testCase.status == 'failed'
-						}
-					}
-					failedTests.isEmpty()
-				}
-			}
-			steps {
-				echo "Deploying application ..."
-				// Add your deployment steps here
-			}
-		}
+		stage('Test cases') {
+            steps {
+                script {
+                    def testResults = bat(returnStdout: true, script: 'npm test --json').trim()
+                    writeFile file: 'test-results.json', text: testResults
+                    def json = new groovy.json.JsonSlurper().parseText(testResults)
+                    def testSuites = json.suites
+
+                    // Count the number of failed test cases
+                    def failedTests = testSuites.collectMany { suite ->
+                        suite.cases.findAll { testCase ->
+                            testCase.status == 'failed'
+                        }
+                    }
+
+                    if (failedTests.isEmpty()) {
+                        echo "All test cases passed. Proceeding to deployment..."
+                        // Proceed to the deployment stage
+                        build 'Deploy'
+                    } else {
+                        echo "Test cases failed! Cannot proceed with deployment."
+                        // Alert about failed test cases or take appropriate actions
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo "Deploying application..."
+                // Add your deployment steps here
+            }
+        }
 	}
 }

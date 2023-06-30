@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="1" failures="0" errors="0" time="0.591">
+  <testsuite name="App" errors="0" failures="0" skipped="0" timestamp="2023-06-30T02:44:30" time="0.516" tests="1">
+    <testcase classname="App should return &quot;Welcome to Jenkins&quot; when GET request is made to &quot;/&quot;" name="App should return &quot;Welcome to Jenkins&quot; when GET request is made to &quot;/&quot;" time="0.016">
+    </testcase>
+  </testsuite>
+</testsuites>

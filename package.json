@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "node ./bin/www",
-    "test": "jest --verbose --json > test.results.json"
+    "test": "jest --verbose --json --outputFile=test.results.json --testResultsProcessor=jest-junit"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -12,6 +12,7 @@
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
+    "jest-junit": "^16.0.0",
     "morgan": "~1.9.1"
   },
   "devDependencies": {
