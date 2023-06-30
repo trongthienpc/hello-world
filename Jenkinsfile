@@ -14,15 +14,18 @@ pipeline {
             }
 			post {
 				always { 
-					junit 'test-results/junit/junit.xml'
+					junit 'test-results/**/*.xml'
 				}
 			}
         }
 
         stage('Deploy') {
+			when {
+				branch 'main'
+			}
             steps {
-                echo "Deploying application..."
-                // Add your deployment steps here
+				withCredentials([string(credentialsId: 'vercel-token', variable: 'VERCEL_TOKEN')])
+				bat 'npx vercel --prod --confirm --token=$VERCEL_TOKEN'
             }
         }
 	}
