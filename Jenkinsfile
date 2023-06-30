@@ -20,9 +20,6 @@ pipeline {
         }
 
         stage('Deploy') {
-			when {
-				branch 'main'
-			}
             steps {
 				withCredentials([string(credentialsId: 'vercel-token', variable: 'VERCEL_TOKEN')])
 				bat 'npx vercel --prod --confirm --token=$VERCEL_TOKEN'
