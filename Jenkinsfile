@@ -10,11 +10,12 @@ pipeline {
 
 		stage('Test cases') {
             steps {
-                bat 'npm test -- --coverage --reporters=default --reporters=jest-junit'
+                bat 'npm test'
             }
 			post {
 				always { 
-					 junit 'coverage/lcov-report/*.xml' // Path to the generated JUnit XML report
+					junit 'test-results/junit.xml'
+          cobertura 'coverage/lcov-report/cobertura-coverage.xml'
 				}
 			}
         }

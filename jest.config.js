@@ -1,16 +1,19 @@
 module.exports = {
-  //   preset: "ts-jest",
-  //   testEnvironment: "node",
+  testEnvironment: "node",
   reporters: [
     "default",
     [
       "jest-junit",
       {
-        suiteName: "Jest Tests",
-        outputDirectory: "./test-results/jest",
+        outputDirectory: "test-results/junit",
         outputName: "junit.xml",
+        classNameTemplate: "{classname} - {title}",
+        titleTemplate: "{classname} - {title}",
+        ancestorSeparator: " › ",
       },
     ],
   ],
-  //   testMatch: ["**/__tests__/**/*.test.js"],
+  collectCoverage: true,
+  coverageReporters: ["lcov", "text"],
+  coverageDirectory: "coverage",
 };
