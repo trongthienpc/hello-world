@@ -4,18 +4,20 @@ pipeline {
 	stages {
 		stage('Install dependencies') {
 			steps {
+				echo "Installing dependencies"
 				bat 'npm install'
 			}
 		}
 
 		stage('Test cases') {
 			steps {
+				echo "Testing functions"
 				bat 'start npm run test --json > test-results.json'
-
 			}
 		}
 
 		stage("Deploy application") { 
+			echo "Deploying application"
 			when {
 				// Chỉ triển khai nếu tất cả các test case đều thành công
 				allOf {
